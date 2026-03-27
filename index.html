@@ -3,598 +3,1315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Peta Menuju Pulih</title>
-    <!-- Tailwind CSS untuk styling yang rapi dan responsif -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Quicksand untuk kesan lembut dan menenangkan -->
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-    <!-- Phosphor Icons untuk icon menu -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sage: '#A7B49E',
-                        sageLight: '#D3D8C9',
-                        beige: '#F4F1EA',
-                        warmText: '#4A4A4A'
-                    },
-                    fontFamily: {
-                        sans: ['Quicksand', 'sans-serif'],
-                        handwriting: ['Caveat', 'cursive']
-                    }
-                }
-            }
-        }
-    </script>
+    <title>🌱 Peta Menuju Pulih — Merry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Caveat:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
     <style>
+        :root {
+            --sage:     #7CB99A;
+            --sage-lt:  #B8D8C8;
+            --sage-dk:  #4A9070;
+            --coral:    #F08080;
+            --coral-lt: #FADADD;
+            --sky:      #87CEEB;
+            --sky-lt:   #D6EEFF;
+            --lavender: #B39DDB;
+            --lav-lt:   #EDE7F6;
+            --gold:     #F5B942;
+            --gold-lt:  #FFF3CC;
+            --beige:    #FAF7F2;
+            --white:    #FFFFFF;
+            --text:     #3A3A4A;
+            --text-lt:  #7A7A8A;
+            --radius:   18px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #F4F1EA;
-            color: #4A4A4A;
+            font-family: 'Quicksand', 'Nunito', sans-serif;
+            background: var(--beige);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 80px;
             -webkit-tap-highlight-color: transparent;
         }
-        
-        /* Transisi halus antar halaman */
-        .page-section {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        .page-section.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--sage-lt); border-radius: 99px; }
+
+        /* ===== PAGES ===== */
+        .page { display: none; animation: fadeUp .4s ease; }
+        .page.active { display: block; }
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(14px); }
+            to   { opacity:1; transform:translateY(0); }
         }
 
-        /* Styling Form & Input */
-        textarea, input[type="text"] {
+        /* ===== LAYOUT ===== */
+        .container { max-width: 480px; margin: 0 auto; padding: 20px 16px 10px; }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        }
+        .card-gradient {
+            background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dk) 100%);
+            color: #fff;
+        }
+        .card-coral   { background: linear-gradient(135deg, #FF9A9E, #FAD0C4); color:#fff; }
+        .card-sky     { background: linear-gradient(135deg, #84FAB0, #8FD3F4); color:#fff; }
+        .card-gold    { background: linear-gradient(135deg, #F6D365, #FDA085); color:#fff; }
+        .card-lav     { background: linear-gradient(135deg, #a18cd1, #fbc2eb); color:#fff; }
+
+        /* ===== HEADINGS ===== */
+        h1 { font-size: 1.6rem; font-weight: 800; }
+        h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; }
+        h3 { font-size: 1.05rem; font-weight: 700; }
+        .subtitle { color: var(--text-lt); font-size: .9rem; }
+
+        /* ===== INPUTS ===== */
+        textarea, input[type="text"], input[type="date"] {
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.6);
-            border: 1px solid #D3D8C9;
+            background: #F7F9FC;
+            border: 2px solid #EAF0F6;
             border-radius: 12px;
-            padding: 12px;
+            padding: 12px 14px;
             font-family: inherit;
+            font-size: .95rem;
             resize: none;
-            transition: all 0.3s;
+            transition: border .25s, box-shadow .25s;
+            color: var(--text);
         }
-        textarea:focus, input[type="text"]:focus {
+        textarea:focus, input[type="text"]:focus, input[type="date"]:focus {
             outline: none;
-            border-color: #A7B49E;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(167, 180, 158, 0.2);
+            border-color: var(--sage);
+            box-shadow: 0 0 0 3px rgba(124,185,154,.18);
         }
 
-        /* Custom Checkbox as Chips */
-        .chip-checkbox input[type="checkbox"] {
-            display: none;
-        }
-        .chip-checkbox label {
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.6);
-            border: 1px solid #D3D8C9;
-            border-radius: 20px;
-            padding: 8px 16px;
-            margin: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-        }
-        .chip-checkbox input[type="checkbox"]:checked + label {
-            background-color: #A7B49E;
-            color: white;
-            border-color: #A7B49E;
-        }
-
-        /* Range Slider Custom */
+        /* ===== RANGE SLIDER ===== */
         input[type=range] {
             -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
+            width: 100%; height: 8px;
+            background: linear-gradient(to right, var(--sage) 0%, var(--sage) 50%, #EAF0F6 50%, #EAF0F6 100%);
+            border-radius: 99px; cursor: pointer;
         }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #A7B49E;
-            cursor: pointer;
-            margin-top: -10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            width: 26px; height: 26px; border-radius: 50%;
+            background: var(--sage); border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,.2); cursor: pointer;
         }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 6px;
-            cursor: pointer;
-            background: #D3D8C9;
-            border-radius: 3px;
+        .range-labels { display: flex; justify-content: space-between; font-size: .75rem; color: var(--text-lt); margin-top: 4px; }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 14px 24px; border-radius: 99px; font-size: .95rem; font-weight: 700;
+            border: none; cursor: pointer; transition: all .2s; font-family: inherit;
+        }
+        .btn-primary { background: var(--sage); color: #fff; width: 100%; }
+        .btn-primary:hover  { background: var(--sage-dk); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(74,144,112,.35); }
+        .btn-outline { background: transparent; color: var(--sage); border: 2.5px solid var(--sage); width: 100%; }
+        .btn-outline:hover  { background: var(--sage); color: #fff; }
+        .btn-coral  { background: var(--coral); color: #fff; }
+        .btn-coral:hover { filter: brightness(1.08); }
+        .btn-gold   { background: var(--gold); color: #fff; }
+        .btn-small  { padding: 8px 18px; font-size: .85rem; width: auto; }
+
+        /* ===== CHIPS ===== */
+        .chip-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip input[type=checkbox] { display: none; }
+        .chip label {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 16px; border-radius: 99px;
+            background: #F0F4FF; border: 2px solid #DDE6FF;
+            cursor: pointer; transition: all .2s; font-size: .88rem; font-weight: 600;
+        }
+        .chip input:checked + label { background: var(--sage); color: #fff; border-color: var(--sage); }
+
+        /* ===== BADGE ===== */
+        .badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: 50%;
+            font-weight: 800; font-size: .95rem; flex-shrink: 0;
         }
 
-        /* Canvas Style */
-        #drawingCanvas {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-            touch-action: none; /* Penting agar tidak scroll saat menggambar di HP */
-            width: 100%;
-            height: 60vh;
-        }
-
-        /* Toast Notification */
+        /* ===== TOAST ===== */
         #toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #A7B49E;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
+            position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-60px);
+            background: var(--text); color: #fff;
+            padding: 12px 22px; border-radius: 99px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.18);
+            z-index: 9999; font-weight: 600; font-size: .9rem;
+            transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+            white-space: nowrap;
         }
-        #toast.show {
-            opacity: 1;
+        #toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* ===== BOTTOM NAV ===== */
+        #bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(255,255,255,.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #EEF2F8;
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 10px 0 14px;
+            z-index: 100;
+            box-shadow: 0 -4px 20px rgba(0,0,0,.06);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; gap: 3px;
+            background: none; border: none; cursor: pointer; padding: 6px 10px; border-radius: 14px;
+            transition: background .2s; color: #AABBC8; font-family: inherit;
+        }
+        .nav-item span { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+        .nav-item i { font-size: 1.5rem; }
+        .nav-item.active { color: var(--sage); background: rgba(124,185,154,.12); }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-wrap { background: #EAF0F6; border-radius: 99px; height: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 99px; transition: width .5s ease; }
+
+        /* ===== STAT CARDS ===== */
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-card { background: var(--white); border-radius: 14px; padding: 14px 16px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+        .stat-num { font-size: 1.8rem; font-weight: 800; }
+        .stat-label { font-size: .78rem; color: var(--text-lt); font-weight: 600; margin-top: 2px; }
+
+        /* ===== GROUNDING WIZARD ===== */
+        .step-card { display: none; }
+        .step-card.active { display: block; animation: fadeUp .4s ease; }
+        .step-dot {
+            width: 10px; height: 10px; border-radius: 50%; background: #DDE6FF; transition: background .3s;
+        }
+        .step-dot.done { background: var(--sage); }
+        .step-dot.current { background: var(--coral); transform: scale(1.3); }
+
+        /* ===== BREATHING ANIMATION ===== */
+        #breathe-overlay {
+            display: none; position: fixed; inset: 0;
+            background: linear-gradient(135deg, #1a3a2a, #2d5a4a);
+            z-index: 200; flex-direction: column; align-items: center; justify-content: center;
+            color: #fff;
+        }
+        #breathe-overlay.show { display: flex; }
+        .breathe-circle {
+            width: 160px; height: 160px; border-radius: 50%;
+            background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.4), rgba(124,185,154,.5));
+            border: 3px solid rgba(255,255,255,.4);
+            animation: breatheAnim 8s ease-in-out infinite;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; font-weight: 700; letter-spacing: 1px;
+            box-shadow: 0 0 60px rgba(124,185,154,.6), 0 0 120px rgba(124,185,154,.3);
+        }
+        @keyframes breatheAnim {
+            0%,100% { transform: scale(1); opacity: .8; }
+            50%      { transform: scale(1.5); opacity: 1; }
+        }
+        #breathe-text { font-size: 1.4rem; font-weight: 700; margin-top: 24px; letter-spacing: 2px; animation: textPulse 8s ease-in-out infinite; }
+        @keyframes textPulse {
+            0%,45%,55%,100% { opacity: .7; }
+            50%              { opacity: 1; }
         }
 
-        /* Nav Tab Active State */
-        .nav-btn.active {
-            color: #A7B49E;
-            font-weight: 600;
+        /* ===== MINI GAME ===== */
+        .game-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+        .game-card {
+            aspect-ratio: 1; border-radius: 14px; border: 3px solid #DDE6FF;
+            background: linear-gradient(135deg, #EEF2FF, #F9F0FF);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; cursor: pointer; transition: all .2s;
+            user-select: none;
         }
-        .nav-btn.active i {
-            color: #A7B49E;
+        .game-card:hover { transform: translateY(-2px); border-color: var(--lavender); }
+        .game-card.flipped, .game-card.matched {
+            background: linear-gradient(135deg, var(--lavender), #c5a3f0);
+            border-color: var(--lavender);
+        }
+        .game-card.matched { background: linear-gradient(135deg, var(--sage), var(--sage-dk)); border-color: var(--sage); cursor: default; }
+        .game-card-back { display: none; }
+        .game-card.flipped .game-card-back, .game-card.matched .game-card-back { display: block; }
+        .game-card.flipped .game-card-front, .game-card.matched .game-card-front { display: none; }
+        #game-complete { display: none; text-align: center; padding: 20px; animation: bounceIn .5s ease; }
+        #game-complete.show { display: block; }
+        @keyframes bounceIn {
+            0%  { transform: scale(0); opacity:0; }
+            60% { transform: scale(1.1); opacity:1; }
+            100%{ transform: scale(1); }
+        }
+
+        /* ===== CONGRATS OVERLAY ===== */
+        #congrats-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,.5); z-index: 300;
+            align-items: center; justify-content: center;
+        }
+        #congrats-overlay.show { display: flex; }
+        .confetti-box {
+            background: linear-gradient(135deg, #fff9c4, #fffde7);
+            border-radius: 24px; padding: 32px 28px; text-align: center;
+            max-width: 340px; width: 90%;
+            animation: bounceIn .5s ease;
+        }
+        .confetti-emoji { font-size: 3rem; margin-bottom: 8px; }
+        .stars { font-size: 1.6rem; letter-spacing: 4px; }
+
+        /* ===== CANVAS ===== */
+        #drawingCanvas {
+            border-radius: 14px; width: 100%; display: block; touch-action: none;
+            box-shadow: 0 2px 12px rgba(0,0,0,.08);
+        }
+        .brush-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .color-btn {
+            width: 32px; height: 32px; border-radius: 50%; border: 3px solid transparent;
+            cursor: pointer; transition: transform .2s, border-color .2s;
+        }
+        .color-btn:hover, .color-btn.active { transform: scale(1.25); border-color: var(--text); }
+        .size-btn {
+            background: #EAF0F6; border: 2px solid transparent; border-radius: 99px;
+            padding: 6px 14px; cursor: pointer; font-size: .85rem; font-weight: 700; font-family: inherit;
+            transition: all .2s;
+        }
+        .size-btn.active, .size-btn:hover { background: var(--sage); color: #fff; border-color: var(--sage); }
+
+        /* ===== COVER PAGE ===== */
+        .cover-hero {
+            background: linear-gradient(150deg, #5b9a82 0%, #3d7a65 40%, #2d5a4a 100%);
+            border-radius: 24px; padding: 32px 24px; color: #fff; margin-bottom: 20px;
+            position: relative; overflow: hidden;
+        }
+        .cover-hero::before {
+            content: ''; position: absolute; top: -30px; right: -30px;
+            width: 160px; height: 160px; border-radius: 50%;
+            background: rgba(255,255,255,.06);
+        }
+        .cover-hero::after {
+            content: ''; position: absolute; bottom: -50px; left: 10px;
+            width: 200px; height: 200px; border-radius: 50%;
+            background: rgba(255,255,255,.04);
+        }
+        .cover-title { font-family: 'Caveat', cursive; font-size: 2.4rem; font-weight: 700; margin-bottom: 4px; }
+        .cover-sub { font-size: .9rem; opacity: .8; }
+        .letter-body { font-family: 'Caveat', cursive; font-size: 1.2rem; line-height: 1.8; }
+
+        /* ===== SECTION LABEL ===== */
+        .section-label {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+        }
+        .section-icon {
+            width: 42px; height: 42px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; flex-shrink: 0;
+        }
+
+        /* ===== HISTORY LIST ===== */
+        .log-item {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 12px 0; border-bottom: 1px solid #F0F4F8;
+        }
+        .log-item:last-child { border-bottom: none; }
+        .log-date-badge {
+            background: var(--sage-lt); color: var(--sage-dk); border-radius: 10px;
+            padding: 6px 10px; font-size: .75rem; font-weight: 700; white-space: nowrap; text-align: center; min-width: 70px;
+        }
+        .energy-pill {
+            display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: .78rem; font-weight: 700; margin-top: 4px;
+        }
+
+        /* ===== TIPS CARD ===== */
+        .tip-card {
+            background: linear-gradient(120deg, var(--gold-lt), #fff8e1);
+            border: 2px solid var(--gold); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px;
+        }
+        .tip-icon { font-size: 1.6rem; margin-bottom: 6px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 360px) {
+            .game-grid { grid-template-columns: repeat(4,1fr); gap: 6px; }
+            .game-card { font-size: 1.4rem; }
         }
     </style>
 </head>
-<body class="antialiased pb-24">
+<body>
 
-    <!-- Toast Notification -->
-    <div id="toast">Notifikasi</div>
+<!-- TOAST -->
+<div id="toast">✓ Tersimpan!</div>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-md mx-auto p-5">
+<!-- BREATHING OVERLAY -->
+<div id="breathe-overlay">
+    <p style="opacity:.7; margin-bottom:24px; font-size:.9rem; letter-spacing:2px; text-transform:uppercase;">Grounding Selesai ��</p>
+    <div class="breathe-circle" id="breathe-label">Tarik Napas</div>
+    <div id="breathe-text">Tarik napas… tahan… hembuskan…</div>
+    <p id="breathe-timer" style="margin-top:20px; font-size:1.1rem; font-weight:700;"></p>
+    <button class="btn btn-outline" style="width:auto; margin-top:30px; border-color:rgba(255,255,255,.5); color:#fff;" onclick="stopBreathe()">Selesai ✓</button>
+</div>
 
-        <!-- ================= PAGE 1: SURAT (COVER) ================= -->
-        <section id="page-surat" class="page-section active">
-            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-2 bg-sage"></div>
-                
-                <h1 class="text-2xl font-bold text-sage mb-2">PETA MENUJU PULIH</h1>
-                <h2 class="text-lg text-gray-500 mb-6 italic">Perjalanan Kita Kembali Padamu</h2>
-                
-                <div class="font-handwriting text-xl leading-relaxed text-gray-700 space-y-4">
-                    <p>Teruntuk Istriku Tersayang,</p>
-                    <p>Aku tahu saat ini rasanya seolah dunia sedang runtuh. Aku tahu isi kepalamu mungkin terasa sangat berisik, tubuhmu terasa lelah, dan kamu mungkin merasa telah kehilangan dirimu sendiri.</p>
-                    <p>Aku membuat tempat ini bukan untuk memaksamu cepat sembuh. Aku membuatnya untuk menjadi "Peta" kecilmu. Supaya setiap kali kamu merasa tersesat, bingung, atau takut, kamu bisa membuka ini dan ingat bahwa: <strong>Kamu tidak sendirian. Aku ada di sini bersamamu.</strong></p>
-                    <p>Seperti cerita yang pernah kita lihat bersama, ketahuilah satu kebenaran ilmiah ini: Kamu tidak rusak. Otakmu hanya sedang lelah dan butuh waktu untuk belajar ulang.</p>
-                    <p>Gunakan aplikasi ini sesukamu. Coret, ketik, tangisi, atau isi perlahan-lahan. Ini adalah ruang amanmu. Kepalamu mungkin bilang kamu harus "pergi" atau menyerah, tapi hatiku akan selalu memintamu untuk "tinggal".</p>
-                    <p>Kita akan melangkah pelan-pelan. Sabar. Konsisten. Sedikit demi sedikit.</p>
-                    <p>Aku mencintaimu, kemarin, hari ini, dan saat kamu pulih nanti.</p>
-                    <p class="mt-6 text-right font-bold text-sage">Suamimu,<br>Christian</p>
+<!-- CONGRATS OVERLAY -->
+<div id="congrats-overlay" onclick="this.classList.remove('show')">
+    <div class="confetti-box">
+        <div class="confetti-emoji" id="congrats-emoji">🎉</div>
+        <div class="stars">⭐⭐⭐</div>
+        <h2 style="margin: 10px 0 8px;" id="congrats-title">Luar Biasa!</h2>
+        <p style="color:var(--text-lt); font-size:.9rem;" id="congrats-msg">Kamu sudah melangkah hari ini.</p>
+        <button class="btn btn-gold btn-small" style="margin-top:16px;" onclick="document.getElementById('congrats-overlay').classList.remove('show')">
+            💛 Terima kasih
+        </button>
+    </div>
+</div>
+
+<!-- MAIN -->
+<main>
+    <!-- ====== PAGE: SURAT (COVER) ====== -->
+    <div id="page-surat" class="page active">
+        <div class="container">
+            <div class="cover-hero">
+                <div class="cover-title">🌱 Peta Menuju Pulih</div>
+                <div class="cover-sub">Perjalanan Kita Kembali Padamu, Sayang</div>
+            </div>
+
+            <div class="card" style="border-left: 5px solid var(--sage);">
+                <div class="letter-body" style="color: var(--text);">
+                    <p style="margin-bottom:12px;">Teruntuk Istriku Tersayang, <strong>Merry</strong> 🌸</p>
+                    <p style="margin-bottom:12px;">Aku tahu saat ini rasanya seolah dunia sedang runtuh. Isi kepalamu mungkin terasa sangat berisik, tubuhmu lelah, dan kamu mungkin merasa kehilangan dirimu sendiri.</p>
+                    <p style="margin-bottom:12px;">Aku membuat tempat ini <em>bukan</em> untuk memaksamu cepat sembuh. Aku membuatnya sebagai "Peta" kecilmu — supaya setiap kali kamu merasa tersesat, bingung, atau takut, kamu bisa membuka ini dan ingat:</p>
+                    <p style="margin-bottom:12px; font-weight:700; color:var(--sage-dk);">💚 "Kamu tidak sendirian. Aku ada di sini bersamamu."</p>
+                    <p style="margin-bottom:12px;">Ketahuilah satu kebenaran ilmiah ini: <strong>Kamu tidak rusak.</strong> Otakmu hanya sedang lelah dan butuh waktu untuk belajar ulang. Itulah neuroplastisitas — otak bisa berubah dan dibangun kembali.</p>
+                    <p style="margin-bottom:16px;">Gunakan aplikasi ini sesukamu. Coret, ketik, tangisi, atau isi perlahan-lahan. Ini ruang amanmu. 🕊️</p>
+                    <p style="text-align:right; font-weight:700; color:var(--sage-dk);">Mencintaimu selalu,<br>Christian 💚</p>
                 </div>
             </div>
-            <button onclick="navigate('page-aman')" class="w-full bg-sage text-white py-3 rounded-xl font-semibold shadow-md hover:bg-opacity-90 transition">Buka Ruang Aman</button>
-        </section>
 
-        <!-- ================= PAGE 2: RUANG AMAN ================= -->
-        <section id="page-aman" class="page-section">
-            <h2 class="text-xl font-bold text-sage mb-4 flex items-center gap-2">
-                <i class="ph ph-shield-check text-2xl"></i> Ruang Aman untuk Lelah
-            </h2>
-            <p class="text-sm text-gray-600 mb-6 bg-sageLight bg-opacity-30 p-3 rounded-lg border border-sageLight">
-                Keluarkan isi kepalamu yang menumpuk di sini. Biarkan layar ini yang menanggung bebannya untukmu.
+            <!-- Progress Overview -->
+            <div class="card" style="background: linear-gradient(135deg, #f0fff8, #e8f5fd);">
+                <h3 style="margin-bottom:14px;">📊 Progres Pemulihan</h3>
+                <div class="stat-grid">
+                    <div class="stat-card" style="border-left: 4px solid var(--sage);">
+                        <div class="stat-num" id="stat-days" style="color:var(--sage);">0</div>
+                        <div class="stat-label">📅 Hari Dicatat</div>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--coral);">
+                        <div class="stat-num" id="stat-avg" style="color:var(--coral);">-</div>
+                        <div class="stat-label">⚡ Energi Rata-rata</div>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--gold);">
+                        <div class="stat-num" id="stat-wins" style="color:var(--gold);">0</div>
+                        <div class="stat-label">🏆 Kemenangan Tercatat</div>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--lavender);">
+                        <div class="stat-num" id="stat-streak" style="color:var(--lavender);">0</div>
+                        <div class="stat-label">🔥 Streak Hari Ini</div>
+                    </div>
+                </div>
+                <div style="margin-top:14px;">
+                    <div style="display:flex; justify-content:space-between; font-size:.85rem; font-weight:600; margin-bottom:6px;">
+                        <span>Progres Keseluruhan</span>
+                        <span id="overall-pct" style="color:var(--sage);">0%</span>
+                    </div>
+                    <div class="progress-wrap">
+                        <div class="progress-fill" id="overall-bar" style="background: linear-gradient(to right, var(--sage), var(--sky)); width:0%;"></div>
+                    </div>
+                    <p id="progress-label" style="font-size:.78rem; color:var(--text-lt); margin-top:6px; text-align:center;">Mulailah perjalananmu hari ini 🌱</p>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="nav('page-aman')">
+                🛡️ Buka Ruang Aman
+            </button>
+        </div>
+    </div>
+
+    <!-- ====== PAGE: RUANG AMAN ====== -->
+    <div id="page-aman" class="page">
+        <div class="container">
+            <div class="section-label">
+                <div class="section-icon" style="background: var(--sage-lt);">🛡️</div>
+                <div>
+                    <h2>Ruang Aman</h2>
+                    <div class="subtitle">Keluarkan semua yang membebankan</div>
+                </div>
+            </div>
+
+            <!-- Brain Dump -->
+            <div class="card">
+                <h3 style="margin-bottom:12px;">🧠 Brain Dump — Keluarkan Semuanya</h3>
+                <div style="margin-bottom:16px;">
+                    <label style="font-weight:600; font-size:.9rem; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                        🩺 Badanku tidak nyaman di bagian...
+                    </label>
+                    <textarea rows="3" id="dump-body" placeholder="Misal: dadaku sesak, pundakku berat, tanganku gemetar..."></textarea>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-weight:600; font-size:.9rem; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                        📢 Suara berisik di kepalaku bilang...
+                    </label>
+                    <textarea rows="3" id="dump-voices" placeholder="Tuliskan agar keluar dari kepalamu... kamu aman di sini 🕊️"></textarea>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-weight:600; font-size:.9rem; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                        😮‍💨 Yang paling membuatku lelah saat ini...
+                    </label>
+                    <textarea rows="3" id="dump-tired" placeholder="Tuliskan semuanya tanpa menyaring..."></textarea>
+                </div>
+                <div style="background:rgba(124,185,154,.1); border-radius:12px; padding:12px; font-family:'Caveat',cursive; font-size:1.1rem; color:var(--sage-dk); text-align:center; margin-bottom:14px;">
+                    💚 "Terima kasih sudah bertahan hari ini. Tidak apa-apa merasa hancur." — Christian
+                </div>
+                <button class="btn btn-primary" onclick="saveDump()">
+                    💾 Simpan Brain Dump
+                </button>
+            </div>
+
+            <!-- Neuroplastisitas -->
+            <div class="card card-gradient" style="padding: 22px;">
+                <h3 style="margin-bottom:10px; font-size:1.1rem;">🔬 Fakta Neuroplastisitas</h3>
+                <p style="opacity:.9; font-size:.9rem; line-height:1.7; margin-bottom:14px;">
+                    Otak manusia memiliki kemampuan luar biasa bernama <strong>Neuroplastisitas</strong> — artinya jalur saraf yang rusak akibat trauma atau tekanan mental <strong>bisa diperbaiki dan dibangun ulang.</strong> Setiap tindakan kecil yang kamu lakukan hari ini sedang memperkuat jalur saraf baru di otakmu. 🧬
+                </p>
+                <div style="background:rgba(255,255,255,.15); border-radius:12px; padding:14px;">
+                    <p style="font-size:.82rem; opacity:.85; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; font-weight:700;">Trauma ini membuatku merasa:</p>
+                    <p style="margin-bottom:10px;">"Tidak berharga, ingin menyerah, sendirian, gila…"</p>
+                    <div style="border-top:1px solid rgba(255,255,255,.2); padding-top:10px;">
+                        <p style="font-size:.82rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; font-weight:700;">Tapi identitas ASLI-ku adalah:</p>
+                        <p style="font-weight:700; font-size:1.05rem;">"Aku istri yang dicintai. Aku kuat. Aku sedang berjuang dan aku AKAN sembuh." 🌟</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brain Tips -->
+            <div class="tip-card">
+                <div class="tip-icon">💡</div>
+                <h3 style="margin-bottom:6px;">Latihan Otak Hari Ini</h3>
+                <p id="daily-tip" style="font-size:.88rem; line-height:1.6; color:var(--text-lt);">Memuat tips...</p>
+            </div>
+
+            <button class="btn btn-outline" onclick="nav('page-game')" style="margin-bottom:10px;">
+                🎮 Mainkan Mini-Game Otak
+            </button>
+        </div>
+    </div>
+
+    <!-- ====== PAGE: GAME ====== -->
+    <div id="page-game" class="page">
+        <div class="container">
+            <div class="section-label">
+                <div class="section-icon" style="background: var(--lav-lt);">🎮</div>
+                <div>
+                    <h2>Latihan Fokus Otak</h2>
+                    <div class="subtitle">Memory Match — cocokkan pasangan emoji!</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <div>
+                        <span style="font-size:.85rem; font-weight:600; color:var(--text-lt);">⏱️ Waktu: </span>
+                        <span id="game-time" style="font-weight:800; color:var(--coral);">0s</span>
+                    </div>
+                    <div>
+                        <span style="font-size:.85rem; font-weight:600; color:var(--text-lt);">🃏 Langkah: </span>
+                        <span id="game-moves" style="font-weight:800; color:var(--lavender);">0</span>
+                    </div>
+                    <div>
+                        <span style="font-size:.85rem; font-weight:600; color:var(--text-lt);">🧩 Match: </span>
+                        <span id="game-matches" style="font-weight:800; color:var(--sage);">0/8</span>
+                    </div>
+                    <button class="btn btn-coral btn-small" onclick="initGame()">🔄</button>
+                </div>
+
+                <div class="game-grid" id="game-grid"></div>
+
+                <div id="game-complete" class="text-center" style="margin-top:16px;">
+                    <div style="font-size:2.5rem;">🎉</div>
+                    <h3 style="color:var(--sage); margin:8px 0 4px;">Kamu Berhasil!</h3>
+                    <p style="font-size:.88rem; color:var(--text-lt);" id="game-result-msg"></p>
+                    <button class="btn btn-primary btn-small" style="width:auto; margin-top:12px;" onclick="initGame()">🎮 Main Lagi</button>
+                </div>
+            </div>
+
+            <div class="card" style="background: linear-gradient(135deg, var(--lav-lt), #f0e6ff);">
+                <h3 style="margin-bottom:10px;">🧠 Mengapa Bermain Membantu?</h3>
+                <p style="font-size:.88rem; line-height:1.7; color:var(--text-lt);">
+                    Permainan memori merangsang <strong>korteks prefrontal</strong> dan <strong>hipokampus</strong> — area otak yang terdampak stres kronis. Setiap sesi bermain membantu memperkuat koneksi saraf baru! 🌱
+                </p>
+            </div>
+
+            <button class="btn btn-outline" onclick="nav('page-grounding')">
+                ⚓ Lanjut ke Grounding
+            </button>
+        </div>
+    </div>
+
+    <!-- ====== PAGE: GROUNDING (WIZARD) ====== -->
+    <div id="page-grounding" class="page">
+        <div class="container">
+            <div class="section-label">
+                <div class="section-icon" style="background: var(--sky-lt);">⚓</div>
+                <div>
+                    <h2>Latihan Grounding</h2>
+                    <div class="subtitle">5-4-3-2-1 — Kembali ke masa kini 🌊</div>
+                </div>
+            </div>
+
+            <!-- Step Indicators -->
+            <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin-bottom:20px;">
+                <div class="step-dot current" id="dot-0"></div>
+                <div class="step-dot" id="dot-1"></div>
+                <div class="step-dot" id="dot-2"></div>
+                <div class="step-dot" id="dot-3"></div>
+                <div class="step-dot" id="dot-4"></div>
+            </div>
+
+            <p style="text-align:center; font-size:.85rem; color:var(--text-lt); margin-bottom:16px;">
+                Langkah <span id="step-label">1</span> dari 5 — Isi perlahan, tidak usah terburu-buru 🌿
             </p>
 
-            <div class="space-y-6">
-                <div>
-                    <label class="block font-semibold mb-2 text-gray-700">Hari ini, badanku terasa sangat tidak nyaman di bagian...</label>
-                    <textarea rows="3" placeholder="Misal: dadaku sesak, pundakku berat..."></textarea>
-                </div>
-
-                <div>
-                    <label class="block font-semibold mb-2 text-gray-700">Suara-suara di kepalaku sedang sangat berisik. Mereka bilang:</label>
-                    <textarea rows="3" placeholder="Tuliskan hal-hal negatif itu di sini agar keluar dari kepalamu..."></textarea>
-                </div>
-
-                <div>
-                    <label class="block font-semibold mb-2 text-gray-700">Hal yang paling membuatku lelah dan putus asa saat ini adalah:</label>
-                    <textarea rows="3" placeholder="Tuliskan semuanya..."></textarea>
-                </div>
-
-                <div class="mt-8 bg-white p-4 rounded-xl border-l-4 border-sage shadow-sm">
-                    <p class="font-handwriting text-xl text-gray-700 italic">"Terima kasih sudah bertahan hari ini. Tidak apa-apa merasa hancur. Keluarkan semuanya, kamu aman di sini." — Christian</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= PAGE 3: PENGINGAT (NEUROPLASTISITAS) ================= -->
-        <section id="page-fakta" class="page-section">
-            <h2 class="text-xl font-bold text-sage mb-6 flex items-center gap-2">
-                <i class="ph ph-brain text-2xl"></i> Fakta Untuk Diingat
-            </h2>
-
-            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 border border-sageLight">
-                <h3 class="font-bold text-lg mb-2 text-sage">Neuroplastisitas</h3>
-                <p class="text-gray-700 mb-4">Otak manusia memiliki kemampuan bernama Neuroplastisitas. <strong>Artinya: Otak bisa berubah.</strong> Jalur saraf yang rusak karena trauma atau tekanan mental bisa diperbaiki dan dibangun ulang.</p>
-                
-                <div class="bg-beige p-4 rounded-xl mb-4">
-                    <p class="font-semibold text-sm text-gray-500 uppercase tracking-wide mb-1">Penyakit/Trauma ini membuatku merasa:</p>
-                    <p class="text-gray-800">"Aku tidak berharga, aku ingin mati, aku gila, aku sendirian."</p>
-                </div>
-
-                <div class="bg-sageLight bg-opacity-40 p-4 rounded-xl">
-                    <p class="font-semibold text-sm text-sage uppercase tracking-wide mb-1">Tapi kenyataannya, identitas asliku adalah:</p>
-                    <p class="text-gray-800 font-medium">"Aku adalah istri yang dicintai. Aku orang yang kuat. Aku sedang berjuang dan aku akan sembuh."</p>
-                </div>
-            </div>
-
-            <button onclick="navigate('page-grounding')" class="w-full border-2 border-sage text-sage py-3 rounded-xl font-semibold hover:bg-sage hover:text-white transition">Latihan Tenangkan Diri (Grounding)</button>
-        </section>
-
-        <!-- ================= PAGE 4: GROUNDING 5-4-3-2-1 ================= -->
-        <section id="page-grounding" class="page-section">
-            <h2 class="text-xl font-bold text-sage mb-2 flex items-center gap-2">
-                <i class="ph ph-anchor text-2xl"></i> Latihan Grounding
-            </h2>
-            <p class="text-sm text-gray-600 mb-6">Saat cemas, mari kembali ke masa kini. Isi perlahan-lahan. Tidak usah buru-buru.</p>
-
-            <div class="space-y-6">
-                <!-- 5 -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">5</span> Benda yang bisa kamu lihat:</h3>
-                    <div class="space-y-2">
-                        <input type="text" placeholder="1...">
-                        <input type="text" placeholder="2...">
-                        <input type="text" placeholder="3...">
-                        <input type="text" placeholder="4...">
-                        <input type="text" placeholder="5...">
+            <!-- STEP 1: 5 Hal dilihat -->
+            <div class="step-card active card" id="step-0" style="border-top: 5px solid var(--sage);">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <div class="badge" style="background:var(--sage); color:#fff; font-size:1.4rem;">5</div>
+                    <div>
+                        <h3>👁️ Benda yang bisa kamu LIHAT</h3>
+                        <p style="font-size:.82rem; color:var(--text-lt);">Lihat sekelilingmu, sebutkan 5 benda nyata</p>
                     </div>
                 </div>
-
-                <!-- 4 -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">4</span> Hal yang bisa disentuh/dirasakan:</h3>
-                    <p class="text-xs text-gray-500 mb-2">Contoh: bajuku, detak jantungku...</p>
-                    <div class="space-y-2">
-                        <input type="text" placeholder="1...">
-                        <input type="text" placeholder="2...">
-                        <input type="text" placeholder="3...">
-                        <input type="text" placeholder="4...">
-                    </div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <input type="text" placeholder="1. Aku melihat…" class="ground-input" data-step="0">
+                    <input type="text" placeholder="2. Aku melihat…" class="ground-input" data-step="0">
+                    <input type="text" placeholder="3. Aku melihat…" class="ground-input" data-step="0">
+                    <input type="text" placeholder="4. Aku melihat…" class="ground-input" data-step="0">
+                    <input type="text" placeholder="5. Aku melihat…" class="ground-input" data-step="0">
                 </div>
-
-                <!-- 3 -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">3</span> Suara yang bisa didengar:</h3>
-                    <p class="text-xs text-gray-500 mb-2">Selain suara di kepalamu...</p>
-                    <div class="space-y-2">
-                        <input type="text" placeholder="1...">
-                        <input type="text" placeholder="2...">
-                        <input type="text" placeholder="3...">
-                    </div>
-                </div>
-
-                <!-- 2 -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">2</span> Hal yang bisa dicium baunya:</h3>
-                    <div class="space-y-2">
-                        <input type="text" placeholder="1...">
-                        <input type="text" placeholder="2...">
-                    </div>
-                </div>
-
-                <!-- 1 -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">1</span> Hal baik tentang dirimu:</h3>
-                    <p class="text-xs text-gray-500 mb-2">Meski rasanya sulit dipercaya saat ini...</p>
-                    <div class="space-y-2">
-                        <input type="text" placeholder="Tulis 1 kebaikanmu..." class="border-sage bg-sageLight bg-opacity-20 font-semibold text-center">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= PAGE 5: JURNAL HARIAN (Bisa Disimpan & Diekspor) ================= -->
-        <section id="page-jurnal" class="page-section">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-sage flex items-center gap-2">
-                    <i class="ph ph-book-open-text text-2xl"></i> Jurnal Harian
-                </h2>
-                <button onclick="exportCSV()" class="text-sm text-gray-500 hover:text-sage flex items-center gap-1 bg-white px-3 py-1 rounded-full shadow-sm">
-                    <i class="ph ph-download-simple"></i> Ekspor Data
+                <button class="btn btn-primary" style="margin-top:16px;" onclick="nextStep(1)">
+                    Lanjut → 4 Hal yang Dirasakan
                 </button>
             </div>
-            
-            <p class="text-sm text-gray-600 mb-6">Satu kata pun cukup. Jangan paksakan harus penuh.</p>
 
-            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 border border-sageLight">
-                <div class="mb-4 text-center">
-                    <span id="displayDate" class="inline-block bg-beige px-4 py-1 rounded-full text-sm font-semibold text-gray-600"></span>
-                </div>
-
-                <div class="mb-6">
-                    <label class="block font-semibold mb-2 text-gray-700">Kapasitas Energiku Hari Ini: <span id="energyValue" class="text-sage font-bold text-lg">5</span>/10</label>
-                    <input type="range" id="energyInput" min="1" max="10" value="5" oninput="document.getElementById('energyValue').innerText = this.value">
-                    <div class="flex justify-between text-xs text-gray-400 mt-1">
-                        <span>Habis (1)</span>
-                        <span>Penuh (10)</span>
+            <!-- STEP 2: 4 Hal dirasakan -->
+            <div class="step-card card" id="step-1" style="border-top: 5px solid var(--coral);">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <div class="badge" style="background:var(--coral); color:#fff; font-size:1.4rem;">4</div>
+                    <div>
+                        <h3>🤲 Hal yang bisa kamu RASAKAN/SENTUH</h3>
+                        <p style="font-size:.82rem; color:var(--text-lt);">Detak jantung, baju di kulitmu, lantai di kakimu…</p>
                     </div>
                 </div>
-
-                <div class="mb-6">
-                    <label class="block font-semibold mb-2 text-gray-700">Satu keberhasilan kecilku hari ini:</label>
-                    <p class="text-xs text-gray-500 mb-2">Mandi, makan satu suap, atau sekadar bernapas adalah sebuah keberhasilan.</p>
-                    <textarea id="successInput" rows="2" placeholder="Aku berhasil..."></textarea>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <input type="text" placeholder="1. Aku merasakan…" class="ground-input" data-step="1">
+                    <input type="text" placeholder="2. Aku merasakan…" class="ground-input" data-step="1">
+                    <input type="text" placeholder="3. Aku merasakan…" class="ground-input" data-step="1">
+                    <input type="text" placeholder="4. Aku merasakan…" class="ground-input" data-step="1">
                 </div>
-
-                <div class="mb-6">
-                    <label class="block font-semibold mb-2 text-gray-700">Keluh Kesahku:</label>
-                    <textarea id="complaintInput" rows="3" placeholder="Tulis bebas apa saja yang mengganggu pikiranmu..."></textarea>
+                <div style="display:flex; gap:10px; margin-top:16px;">
+                    <button class="btn btn-outline" onclick="prevStep(0)" style="width:auto; padding:14px 20px;">← Kembali</button>
+                    <button class="btn btn-primary" onclick="nextStep(2)" style="flex:1;">Lanjut → 3 Hal yang Didengar</button>
                 </div>
+            </div>
 
-                <div class="mb-8">
-                    <label class="block font-semibold mb-2 text-gray-700">Apa yang aku butuhkan dari Christian hari ini?</label>
-                    <div class="flex flex-wrap gap-2">
-                        <div class="chip-checkbox">
-                            <input type="checkbox" id="need1" value="Pelukan dalam diam">
-                            <label for="need1">Pelukan dalam diam</label>
-                        </div>
-                        <div class="chip-checkbox">
-                            <input type="checkbox" id="need2" value="Diajak ngobrol">
-                            <label for="need2">Diajak ngobrol</label>
-                        </div>
-                        <div class="chip-checkbox">
-                            <input type="checkbox" id="need3" value="Ditinggal sendiri tapi diawasi">
-                            <label for="need3">Waktu sendiri (awasi aku)</label>
-                        </div>
-                        <div class="chip-checkbox">
-                            <input type="checkbox" id="need4" value="Dibawakan makanan">
-                            <label for="need4">Dibawakan makanan</label>
-                        </div>
-                        <div class="chip-checkbox w-full mt-2">
-                            <input type="text" id="needOther" placeholder="Bantuan lain..." class="w-full text-sm border-gray-200">
-                        </div>
+            <!-- STEP 3: 3 Hal didengar -->
+            <div class="step-card card" id="step-2" style="border-top: 5px solid var(--sky);">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <div class="badge" style="background:var(--sky); color:#fff; font-size:1.4rem;">3</div>
+                    <div>
+                        <h3>👂 Suara yang bisa kamu DENGAR</h3>
+                        <p style="font-size:.82rem; color:var(--text-lt);">Selain suara di dalam kepalamu…</p>
                     </div>
                 </div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <input type="text" placeholder="1. Aku mendengar…" class="ground-input" data-step="2">
+                    <input type="text" placeholder="2. Aku mendengar…" class="ground-input" data-step="2">
+                    <input type="text" placeholder="3. Aku mendengar…" class="ground-input" data-step="2">
+                </div>
+                <div style="display:flex; gap:10px; margin-top:16px;">
+                    <button class="btn btn-outline" onclick="prevStep(1)" style="width:auto; padding:14px 20px;">← Kembali</button>
+                    <button class="btn btn-primary" onclick="nextStep(3)" style="flex:1;">Lanjut → 2 Hal yang Dicium</button>
+                </div>
+            </div>
 
-                <button onclick="saveJurnal()" class="w-full bg-sage text-white py-3 rounded-xl font-semibold shadow-md hover:bg-opacity-90 transition flex items-center justify-center gap-2">
-                    <i class="ph ph-floppy-disk text-xl"></i> Simpan Catatan Hari Ini
+            <!-- STEP 4: 2 Hal dicium -->
+            <div class="step-card card" id="step-3" style="border-top: 5px solid var(--lavender);">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <div class="badge" style="background:var(--lavender); color:#fff; font-size:1.4rem;">2</div>
+                    <div>
+                        <h3>👃 Hal yang bisa kamu CIUM</h3>
+                        <p style="font-size:.82rem; color:var(--text-lt);">Udara, makanan, parfum, apapun…</p>
+                    </div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <input type="text" placeholder="1. Aku mencium bau…" class="ground-input" data-step="3">
+                    <input type="text" placeholder="2. Aku mencium bau…" class="ground-input" data-step="3">
+                </div>
+                <div style="display:flex; gap:10px; margin-top:16px;">
+                    <button class="btn btn-outline" onclick="prevStep(2)" style="width:auto; padding:14px 20px;">← Kembali</button>
+                    <button class="btn btn-primary" onclick="nextStep(4)" style="flex:1;">Lanjut → 1 Hal Tentangmu</button>
+                </div>
+            </div>
+
+            <!-- STEP 5: 1 Kebaikan diri -->
+            <div class="step-card card" id="step-4" style="border-top: 5px solid var(--gold);">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <div class="badge" style="background:var(--gold); color:#fff; font-size:1.4rem;">1</div>
+                    <div>
+                        <h3>💛 1 Hal baik tentang DIRIMU</h3>
+                        <p style="font-size:.82rem; color:var(--text-lt);">Meski rasanya sulit dipercaya saat ini…</p>
+                    </div>
+                </div>
+                <input type="text" placeholder="Satu hal baik tentang diriku adalah…" class="ground-input" data-step="4" style="font-size:1.05rem; text-align:center; font-weight:600;">
+                <div style="display:flex; gap:10px; margin-top:16px;">
+                    <button class="btn btn-outline" onclick="prevStep(3)" style="width:auto; padding:14px 20px;">← Kembali</button>
+                    <button class="btn btn-primary" onclick="finishGrounding()" style="flex:1;">
+                        ✅ Selesai & Mulai Napas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== PAGE: JURNAL HARIAN ====== -->
+    <div id="page-jurnal" class="page">
+        <div class="container">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <div class="section-label" style="margin-bottom:0;">
+                    <div class="section-icon" style="background: var(--gold-lt);">📖</div>
+                    <div>
+                        <h2>Jurnal Harian</h2>
+                        <div class="subtitle">Satu kata pun berarti 💛</div>
+                    </div>
+                </div>
+                <button class="btn btn-small" style="background:var(--sky-lt); color:var(--text); border:2px solid var(--sky); white-space:nowrap;" onclick="exportCSV()">
+                    📥 Ekspor
                 </button>
             </div>
-        </section>
 
-        <!-- ================= PAGE 6: KANVAS BEBAS ================= -->
-        <section id="page-kanvas" class="page-section">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-sage flex items-center gap-2">
-                    <i class="ph ph-palette text-2xl"></i> Kanvas Bebas
-                </h2>
-                <button onclick="clearCanvas()" class="text-sm bg-red-100 text-red-600 px-3 py-1 rounded-full shadow-sm font-semibold flex items-center gap-1 hover:bg-red-200 transition">
-                    <i class="ph ph-trash"></i> Hapus
+            <!-- Form -->
+            <div class="card" style="border-top: 5px solid var(--gold);">
+                <div style="text-align:center; margin-bottom:18px;">
+                    <span id="displayDate" style="display:inline-block; background:var(--gold-lt); border:2px solid var(--gold); padding:8px 18px; border-radius:99px; font-weight:700; font-size:.9rem;"></span>
+                </div>
+
+                <div style="margin-bottom:20px;">
+                    <label style="font-weight:700; display:block; margin-bottom:10px;">
+                        ⚡ Kapasitas Energi:
+                        <span id="energyValue" style="font-size:1.3rem; color:var(--sage); font-weight:800;">5</span>/10
+                    </label>
+                    <input type="range" id="energyInput" min="1" max="10" value="5"
+                           oninput="updateRange(this)">
+                    <div class="range-labels">
+                        <span>😴 Habis (1)</span>
+                        <span>🔥 Penuh (10)</span>
+                    </div>
+                    <div id="energy-emoji" style="text-align:center; font-size:1.8rem; margin-top:8px;">😐</div>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <label style="font-weight:700; font-size:.9rem; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                        🏆 Satu keberhasilan kecilku hari ini:
+                    </label>
+                    <p style="font-size:.78rem; color:var(--text-lt); margin-bottom:8px;">Mandi, makan satu suap, atau sekadar bernapas = keberhasilan besar</p>
+                    <textarea id="successInput" rows="2" placeholder="Aku berhasil…"></textarea>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <label style="font-weight:700; font-size:.9rem; display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                        💬 Keluh Kesahku:
+                    </label>
+                    <textarea id="complaintInput" rows="3" placeholder="Tulis bebas apa saja yang mengganggu…"></textarea>
+                </div>
+
+                <div style="margin-bottom:20px;">
+                    <label style="font-weight:700; font-size:.9rem; display:block; margin-bottom:10px;">
+                        💌 Yang aku butuhkan dari Christian hari ini:
+                    </label>
+                    <div class="chip-wrap">
+                        <div class="chip"><input type="checkbox" id="need1" value="Pelukan dalam diam"><label for="need1">🤗 Pelukan</label></div>
+                        <div class="chip"><input type="checkbox" id="need2" value="Diajak ngobrol"><label for="need2">💬 Ngobrol</label></div>
+                        <div class="chip"><input type="checkbox" id="need3" value="Waktu sendiri (diawasi)"><label for="need3">🕊️ Waktu Sendiri</label></div>
+                        <div class="chip"><input type="checkbox" id="need4" value="Dibawakan makanan"><label for="need4">🍱 Makanan</label></div>
+                        <div class="chip"><input type="checkbox" id="need5" value="Didampingi diam-diam"><label for="need5">🌙 Didampingi</label></div>
+                        <div class="chip"><input type="checkbox" id="need6" value="Diingatkan aku dicintai"><label for="need6">💚 Diingatkan dicintai</label></div>
+                    </div>
+                    <input type="text" id="needOther" placeholder="Atau tulis kebutuhan lain…" style="margin-top:10px;">
+                </div>
+
+                <button class="btn btn-primary" onclick="saveJurnal()">
+                    💾 Simpan Catatan Hari Ini
                 </button>
             </div>
-            
-            <p class="text-sm text-gray-600 mb-4 bg-sageLight bg-opacity-30 p-3 rounded-lg">
-                Halaman ini tidak punya aturan. Coret-coret dengan kasar. Gambar perasaanmu. Biarkan tanganmu bergerak bebas.
-            </p>
 
-            <div class="relative">
+            <!-- History -->
+            <div class="card" id="history-card" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h3>📋 Riwayat Catatan</h3>
+                    <button onclick="clearHistory()" class="btn btn-small btn-coral" style="font-size:.78rem; padding:6px 12px;">🗑️ Hapus Semua</button>
+                </div>
+                <div id="history-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== PAGE: KANVAS ====== -->
+    <div id="page-kanvas" class="page">
+        <div class="container">
+            <div class="section-label">
+                <div class="section-icon" style="background: var(--coral-lt);">🎨</div>
+                <div>
+                    <h2>Kanvas Bebas</h2>
+                    <div class="subtitle">Coret, gambar, dan rasakan kebebasan 🖌️</div>
+                </div>
+            </div>
+
+            <div style="background:rgba(248,108,108,.08); border-radius:12px; padding:10px 14px; margin-bottom:14px; font-size:.85rem; color:var(--coral);">
+                🎨 Tidak ada aturan di sini. Ekspresikan apapun yang kamu rasakan.
+            </div>
+
+            <!-- Color Palette -->
+            <div class="card" style="padding: 14px 16px;">
+                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <span style="font-size:.82rem; font-weight:700; color:var(--text-lt);">Warna:</span>
+                    <div class="brush-wrap" id="color-palette">
+                        <button class="color-btn active" style="background:#3A3A4A;" data-color="#3A3A4A" onclick="setColor(this)"></button>
+                        <button class="color-btn" style="background:#F08080;" data-color="#F08080" onclick="setColor(this)"></button>
+                        <button class="color-btn" style="background:#7CB99A;" data-color="#7CB99A" onclick="setColor(this)"></button>
+                        <button class="color-btn" style="background:#87CEEB;" data-color="#87CEEB" onclick="setColor(this)"></button>
+                        <button class="color-btn" style="background:#B39DDB;" data-color="#B39DDB" onclick="setColor(this)"></button>
+                        <button class="color-btn" style="background:#F5B942;" data-color="#F5B942" onclick="setColor(this)"></button>
+                        <button class="color-btn" style="background:#FF6B6B;" data-color="#FF6B6B" onclick="setColor(this)"></button>
+                        <button class="color-btn" style="background:#FFFFFF; border:2px solid #ddd;" data-color="#FFFFFF" onclick="setColor(this)"></button>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px; margin-top:10px; flex-wrap:wrap;">
+                    <span style="font-size:.82rem; font-weight:700; color:var(--text-lt);">Ukuran:</span>
+                    <button class="size-btn" onclick="setBrush(3, this)">●</button>
+                    <button class="size-btn active" onclick="setBrush(7, this)">● ●</button>
+                    <button class="size-btn" onclick="setBrush(14, this)">● ● ●</button>
+                    <button class="size-btn" onclick="setBrush(25, this)">● ● ● ●</button>
+                    <button class="btn btn-coral btn-small" style="margin-left:auto;" onclick="clearCanvas()">🗑️ Hapus</button>
+                </div>
+            </div>
+
+            <div style="position:relative; background:#fff; border-radius:14px; overflow:hidden; box-shadow: 0 2px 12px rgba(0,0,0,.08);">
                 <canvas id="drawingCanvas"></canvas>
             </div>
-        </section>
 
-    </main>
+            <div class="tip-card" style="margin-top:14px;">
+                <div class="tip-icon">🖌️</div>
+                <p style="font-size:.85rem; color:var(--text-lt);">Menggambar merangsang bagian kreatif otak dan membantu melepaskan emosi yang terjebak di dalam tubuh. Coret semarah mungkin, tidak ada yang menghakimi di sini. 💚</p>
+            </div>
+        </div>
+    </div>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-    <nav class="fixed bottom-0 w-full bg-white border-t border-gray-200 flex justify-around p-3 pb-safe-area shadow-[0_-4px_15px_rgba(0,0,0,0.03)] z-50">
-        <button onclick="navigate('page-surat')" class="nav-btn active flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-surat">
-            <i class="ph ph-envelope-open text-2xl"></i>
-            <span class="text-[10px] uppercase font-bold">Surat</span>
-        </button>
-        <button onclick="navigate('page-aman')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-aman">
-            <i class="ph ph-shield-check text-2xl"></i>
-            <span class="text-[10px] uppercase font-bold">Aman</span>
-        </button>
-        <button onclick="navigate('page-grounding')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-grounding">
-            <i class="ph ph-anchor text-2xl"></i>
-            <span class="text-[10px] uppercase font-bold">Fokus</span>
-        </button>
-        <button onclick="navigate('page-jurnal')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-jurnal">
-            <i class="ph ph-book-open-text text-2xl"></i>
-            <span class="text-[10px] uppercase font-bold">Jurnal</span>
-        </button>
-        <button onclick="navigate('page-kanvas')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-kanvas">
-            <i class="ph ph-palette text-2xl"></i>
-            <span class="text-[10px] uppercase font-bold">Kanvas</span>
-        </button>
-    </nav>
+</main>
 
-    <!-- ================= JAVASCRIPT LOGIC ================= -->
-    <script>
-        // --- 1. Navigation Logic ---
-        function navigate(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page-section').forEach(page => {
-                page.classList.remove('active');
-            });
-            // Reset nav buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Show target page
-            document.getElementById(pageId).classList.add('active');
-            // Highlight active nav button
-            const activeBtn = document.querySelector(`.nav-btn[data-target="${pageId}"]`);
-            if(activeBtn) activeBtn.classList.add('active');
+<!-- BOTTOM NAV -->
+<nav id="bottom-nav">
+    <button class="nav-item active" onclick="nav('page-surat')" data-page="page-surat">
+        <i class="ph ph-envelope-open"></i>
+        <span>Surat</span>
+    </button>
+    <button class="nav-item" onclick="nav('page-aman')" data-page="page-aman">
+        <i class="ph ph-shield-check"></i>
+        <span>Aman</span>
+    </button>
+    <button class="nav-item" onclick="nav('page-game')" data-page="page-game">
+        <i class="ph ph-game-controller"></i>
+        <span>Game</span>
+    </button>
+    <button class="nav-item" onclick="nav('page-grounding')" data-page="page-grounding">
+        <i class="ph ph-anchor"></i>
+        <span>Fokus</span>
+    </button>
+    <button class="nav-item" onclick="nav('page-jurnal')" data-page="page-jurnal">
+        <i class="ph ph-book-open-text"></i>
+        <span>Jurnal</span>
+    </button>
+    <button class="nav-item" onclick="nav('page-kanvas')" data-page="page-kanvas">
+        <i class="ph ph-palette"></i>
+        <span>Kanvas</span>
+    </button>
+</nav>
 
-            // Resize canvas if navigating to kanvas to ensure proper coordinate mapping
-            if(pageId === 'page-kanvas') {
-                resizeCanvas();
-            }
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
+<script>
+// ====================================================
+// NAVIGATION
+// ====================================================
+function nav(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    const btn = document.querySelector(`.nav-item[data-page="${pageId}"]`);
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (pageId === 'page-kanvas') setTimeout(resizeCanvas, 100);
+    if (pageId === 'page-jurnal') { setTodayDate(); loadHistory(); }
+    if (pageId === 'page-surat') updateStats();
+    if (pageId === 'page-aman') showDailyTip();
+}
 
-        // --- 2. Jurnal & LocalStorage Logic ---
-        // Set Today's Date
-        const today = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('displayDate').innerText = today.toLocaleDateString('id-ID', options);
+// ====================================================
+// TOAST
+// ====================================================
+function toast(msg, duration = 2800) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+}
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.innerText = message;
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 3000);
-        }
+// ====================================================
+// CONGRATS
+// ====================================================
+const congratsMessages = [
+    { emoji: '🌱', title: 'Tumbuh Pelan-pelan!', msg: 'Setiap langkah kecil membangun jalur saraf baru di otakmu.' },
+    { emoji: '💚', title: 'Kamu Berhasil!', msg: 'Catatan ini adalah bukti bahwa kamu masih berjuang dan itu luar biasa.' },
+    { emoji: '🌸', title: 'Terima Kasih, Sayang!', msg: 'Christian bangga dengan setiap langkah kecilmu.' },
+    { emoji: '⭐', title: 'Bintang Hari Ini!', msg: 'Otak kamu sedang membangun jalur baru yang lebih sehat.' },
+    { emoji: '🦋', title: 'Berubah Pelan-pelan!', msg: 'Seperti kupu-kupu, perubahanmu sedang terjadi di dalam.' },
+];
+function showCongrats(type = 0) {
+    const c = congratsMessages[type % congratsMessages.length];
+    document.getElementById('congrats-emoji').textContent = c.emoji;
+    document.getElementById('congrats-title').textContent = c.title;
+    document.getElementById('congrats-msg').textContent = c.msg;
+    document.getElementById('congrats-overlay').classList.add('show');
+}
 
-        function saveJurnal() {
-            // Get Checkbox Values
-            let needs = [];
-            for(let i=1; i<=4; i++) {
-                let cb = document.getElementById(`need${i}`);
-                if(cb.checked) needs.push(cb.value);
-            }
-            let otherNeed = document.getElementById('needOther').value.trim();
-            if(otherNeed) needs.push(otherNeed);
+// ====================================================
+// DAILY TIP
+// ====================================================
+const tips = [
+    '🌊 Coba teknik "grounding box breathing": Tarik napas 4 detik, tahan 4 detik, hembuskan 4 detik, tahan 4 detik.',
+    '🎵 Putar lagu instrumental favorit selama 10 menit — musik tanpa lirik paling efektif menenangkan amigdala.',
+    '🚶 Jalan kaki 5 menit di dalam rumah sambil memperhatikan setiap langkah kakimu di lantai.',
+    '💧 Minum segelas air dingin perlahan-lahan sambil merasakan setiap tegukan.',
+    '🌿 Sentuh 3 benda berbeda tekstur di dekatmu dan deskripsikan sensasinya.',
+    '📝 Tulis 3 hal yang berhasil kamu lakukan hari ini, sekecil apapun.',
+    '🤲 Gosok telapak tangan selama 20 detik, rasakan hangatnya, lalu tempelkan ke wajahmu.',
+    '🫁 Tarik napas dalam-dalam sampai perutmu mengembang (bukan dadamu) — ini mengaktifkan saraf parasimpatik.',
+    '🌱 Ingat: Setiap hari yang kamu lewati adalah bukti kekuatanmu. Kamu sudah selamat dari 100% hari terberatmu.',
+    '💙 Coba "self-compassion break": Bayangkan kamu berbicara kepada sahabat yang sedang menderita — lalu ucapkan kata-kata itu ke dirimu sendiri.',
+];
+function showDailyTip() {
+    const idx = new Date().getDay() + new Date().getDate();
+    document.getElementById('daily-tip').textContent = tips[idx % tips.length];
+}
 
-            const entry = {
-                id: Date.now(),
-                tanggal: today.toLocaleDateString('id-ID'),
-                energi: document.getElementById('energyInput').value,
-                keberhasilan: document.getElementById('successInput').value.trim(),
-                keluhan: document.getElementById('complaintInput').value.trim(),
-                kebutuhan: needs.join('; ')
-            };
+// ====================================================
+// GROUNDING WIZARD
+// ====================================================
+let currentStep = 0;
+function nextStep(toStep) {
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.getElementById(`dot-${currentStep}`).classList.remove('current');
+    document.getElementById(`dot-${currentStep}`).classList.add('done');
+    currentStep = toStep;
+    document.getElementById(`step-${currentStep}`).classList.add('active');
+    document.getElementById(`dot-${currentStep}`).classList.add('current');
+    document.getElementById('step-label').textContent = currentStep + 1;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function prevStep(toStep) {
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.getElementById(`dot-${currentStep}`).classList.remove('current');
+    document.getElementById(`dot-${currentStep}`).classList.remove('done');
+    currentStep = toStep;
+    document.getElementById(`step-${currentStep}`).classList.add('active');
+    document.getElementById(`dot-${currentStep}`).classList.remove('done');
+    document.getElementById(`dot-${currentStep}`).classList.add('current');
+    document.getElementById('step-label').textContent = currentStep + 1;
+}
+function resetGroundingWizard() {
+    for (let i = 0; i < 5; i++) {
+        const s = document.getElementById(`step-${i}`);
+        const d = document.getElementById(`dot-${i}`);
+        s.classList.remove('active');
+        d.classList.remove('current', 'done');
+    }
+    currentStep = 0;
+    document.getElementById('step-0').classList.add('active');
+    document.getElementById('dot-0').classList.add('current');
+    document.getElementById('step-label').textContent = '1';
+}
+function finishGrounding() {
+    // Mark step 4 done
+    document.getElementById('dot-4').classList.remove('current');
+    document.getElementById('dot-4').classList.add('done');
+    startBreathe();
+}
 
-            // Retrieve existing, push new, save back
-            let logs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
-            logs.push(entry);
-            localStorage.setItem('meryJurnalLogs', JSON.stringify(logs));
+// ====================================================
+// BREATHING ANIMATION
+// ====================================================
+let breatheInterval = null;
+let breatheTimer = null;
+let breatheSeconds = 0;
+const BREATHE_TOTAL = 40;
+function startBreathe() {
+    breatheSeconds = BREATHE_TOTAL;
+    const overlay = document.getElementById('breathe-overlay');
+    const label = document.getElementById('breathe-label');
+    const timerEl = document.getElementById('breathe-timer');
+    overlay.classList.add('show');
 
-            showToast('Catatan hari ini berhasil disimpan 💚');
-            
-            // Clear inputs slightly
-            document.getElementById('successInput').value = '';
-            document.getElementById('complaintInput').value = '';
-        }
+    const phases = ['Tarik Napas 🌬️', 'Tahan… 🤲', 'Hembuskan 😮‍💨', 'Tahan… 🌿'];
+    let phaseIdx = 0;
+    label.textContent = phases[0];
 
-        // --- 3. CSV Export Logic ---
-        function exportCSV() {
-            let logs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
-            if (logs.length === 0) {
-                showToast('Belum ada catatan untuk diekspor.');
-                return;
-            }
+    breatheInterval = setInterval(() => {
+        phaseIdx = (phaseIdx + 1) % phases.length;
+        label.textContent = phases[phaseIdx];
+    }, 4000);
 
-            // CSV Header
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Tanggal,Energi (1-10),Keberhasilan Kecil,Keluh Kesah,Kebutuhan\n";
+    breatheTimer = setInterval(() => {
+        breatheSeconds--;
+        timerEl.textContent = `Tersisa ${breatheSeconds}s`;
+        if (breatheSeconds <= 0) stopBreathe(true);
+    }, 1000);
+}
+function stopBreathe(auto = false) {
+    clearInterval(breatheInterval);
+    clearInterval(breatheTimer);
+    document.getElementById('breathe-overlay').classList.remove('show');
+    if (auto) {
+        setTimeout(() => {
+            showCongrats(1);
+            resetGroundingWizard();
+        }, 300);
+    } else {
+        resetGroundingWizard();
+    }
+}
 
-            logs.forEach(function(row) {
-                // Escape quotes and commas
-                let keberhasilan = `"${row.keberhasilan.replace(/"/g, '""')}"`;
-                let keluhan = `"${row.keluhan.replace(/"/g, '""')}"`;
-                let kebutuhan = `"${row.kebutuhan.replace(/"/g, '""')}"`;
-                
-                let rowData = `${row.tanggal},${row.energi},${keberhasilan},${keluhan},${kebutuhan}`;
-                csvContent += rowData + "\n";
-            });
+// ====================================================
+// MEMORY GAME
+// ====================================================
+const EMOJIS = ['🌸', '🌿', '🌊', '⭐', '🦋', '🌈', '💚', '🎶'];
+let gameCards = [], firstCard = null, secondCard = null;
+let gameLocked = false, gameMatches = 0, gameMoves = 0;
+let gameTimerEl, gameMoveEl, gameMatchEl;
+let gameStartTime = null, gameTimerInterval = null;
 
-            // Trigger Download
-            var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Jurnal_Pemulihan_Mery_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link); // Required for FF
-            link.click();
-            document.body.removeChild(link);
-        }
+function initGame() {
+    gameCards = [];
+    firstCard = null; secondCard = null;
+    gameLocked = false; gameMatches = 0; gameMoves = 0;
+    clearInterval(gameTimerInterval); gameStartTime = null;
 
-        // --- 4. Drawing Canvas Logic ---
-        const canvas = document.getElementById('drawingCanvas');
-        const ctx = canvas.getContext('2d');
-        let isDrawing = false;
+    gameTimerEl = document.getElementById('game-time');
+    gameMoveEl  = document.getElementById('game-moves');
+    gameMatchEl = document.getElementById('game-matches');
+    gameTimerEl.textContent = '0s';
+    gameMoveEl.textContent  = '0';
+    gameMatchEl.textContent = '0/8';
+    document.getElementById('game-complete').classList.remove('show');
 
-        function resizeCanvas() {
-            // Set actual internal canvas size to match CSS display size
-            const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-            
-            // Set pen style
-            ctx.lineWidth = 3;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#4A4A4A'; // Warm dark gray
-        }
+    const pairs = [...EMOJIS, ...EMOJIS].sort(() => Math.random() - 0.5);
+    const grid = document.getElementById('game-grid');
+    grid.innerHTML = '';
 
-        // Call initially and on resize
-        window.addEventListener('resize', resizeCanvas);
+    pairs.forEach((emoji, i) => {
+        const div = document.createElement('div');
+        div.className = 'game-card';
+        div.dataset.emoji = emoji;
+        div.innerHTML = `<span class="game-card-front">🌀</span><span class="game-card-back">${emoji}</span>`;
+        div.addEventListener('click', () => flipCard(div));
+        grid.appendChild(div);
+        gameCards.push(div);
+    });
+}
 
-        // Get accurate mouse/touch position
-        function getPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            // Handle Touch
-            if(e.touches && e.touches.length > 0) {
-                return {
-                    x: e.touches[0].clientX - rect.left,
-                    y: e.touches[0].clientY - rect.top
-                };
-            }
-            // Handle Mouse
-            return {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            };
-        }
+function flipCard(card) {
+    if (gameLocked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+    if (!gameStartTime) {
+        gameStartTime = Date.now();
+        gameTimerInterval = setInterval(() => {
+            gameTimerEl.textContent = Math.floor((Date.now() - gameStartTime) / 1000) + 's';
+        }, 500);
+    }
+    card.classList.add('flipped');
+    if (!firstCard) { firstCard = card; return; }
+    secondCard = card;
+    gameLocked = true;
+    gameMoves++;
+    gameMoveEl.textContent = gameMoves;
 
-        function startDrawing(e) {
-            e.preventDefault(); // Prevent scrolling on touch
-            isDrawing = true;
-            const pos = getPos(e);
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
-        }
+    if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
+        firstCard.classList.add('matched'); secondCard.classList.add('matched');
+        firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped');
+        gameMatches++;
+        gameMatchEl.textContent = `${gameMatches}/8`;
+        firstCard = null; secondCard = null; gameLocked = false;
+        if (gameMatches === 8) endGame();
+    } else {
+        setTimeout(() => {
+            firstCard.classList.remove('flipped');
+            secondCard.classList.remove('flipped');
+            firstCard = null; secondCard = null; gameLocked = false;
+        }, 900);
+    }
+}
 
-        function draw(e) {
-            if (!isDrawing) return;
-            e.preventDefault(); // Prevent scrolling on touch
-            const pos = getPos(e);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-        }
+function endGame() {
+    clearInterval(gameTimerInterval);
+    const elapsed = Math.floor((Date.now() - gameStartTime) / 1000);
+    document.getElementById('game-result-msg').textContent =
+        `Selesai dalam ${elapsed} detik dengan ${gameMoves} langkah! 🏆`;
+    document.getElementById('game-complete').classList.add('show');
+    setTimeout(() => showCongrats(0), 600);
+}
 
-        function stopDrawing(e) {
-            if (!isDrawing) return;
-            e.preventDefault();
-            isDrawing = false;
-        }
+// ====================================================
+// JURNAL & LOCALSTORAGE
+// ====================================================
+function setTodayDate() {
+    const d = new Date();
+    document.getElementById('displayDate').textContent =
+        d.toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+}
 
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
+function updateRange(el) {
+    const v = parseInt(el.value);
+    document.getElementById('energyValue').textContent = v;
+    const pct = ((v - 1) / 9) * 100;
+    el.style.background = `linear-gradient(to right, var(--sage) 0%, var(--sage) ${pct}%, #EAF0F6 ${pct}%, #EAF0F6 100%)`;
+    const emojis = ['', '😵', '😔', '😞', '😕', '😐', '🙂', '😊', '😄', '🤩', '🔥'];
+    document.getElementById('energy-emoji').textContent = emojis[v] || '😐';
+}
 
-        // Mouse Events
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseout', stopDrawing);
+function saveJurnal() {
+    let needs = [];
+    for (let i = 1; i <= 6; i++) {
+        const cb = document.getElementById(`need${i}`);
+        if (cb && cb.checked) needs.push(cb.value);
+    }
+    const other = document.getElementById('needOther').value.trim();
+    if (other) needs.push(other);
 
-        // Touch Events (For Mobile)
-        canvas.addEventListener('touchstart', startDrawing, { passive: false });
-        canvas.addEventListener('touchmove', draw, { passive: false });
-        canvas.addEventListener('touchend', stopDrawing, { passive: false });
-        canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+    const entry = {
+        id: Date.now(),
+        tanggal: new Date().toLocaleDateString('id-ID'),
+        tanggalISO: new Date().toISOString().split('T')[0],
+        energi: parseInt(document.getElementById('energyInput').value),
+        keberhasilan: document.getElementById('successInput').value.trim(),
+        keluhan: document.getElementById('complaintInput').value.trim(),
+        kebutuhan: needs.join('; ')
+    };
 
-    </script>
+    let logs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
+    logs.push(entry);
+    localStorage.setItem('meryJurnalLogs', JSON.stringify(logs));
+
+    // reset
+    document.getElementById('successInput').value = '';
+    document.getElementById('complaintInput').value = '';
+    document.getElementById('needOther').value = '';
+    for (let i = 1; i <= 6; i++) {
+        const cb = document.getElementById(`need${i}`);
+        if (cb) cb.checked = false;
+    }
+    document.getElementById('energyInput').value = 5;
+    updateRange(document.getElementById('energyInput'));
+
+    toast('💚 Catatan disimpan! Kamu luar biasa hari ini.');
+    loadHistory();
+    updateStats();
+
+    const allLogs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
+    if ([1, 3, 7, 14, 30].includes(allLogs.length)) {
+        const milestones = { 1:'Hari pertama! Langkah kecil yang berani! 🌱', 3:'3 hari berturut! Kamu konsisten! 🌿', 7:'Satu minggu! Otakmu sudah lebih kuat! 🏆', 14:'2 minggu! Jalur saraf baru sudah terbentuk! 🧠', 30:'SEBULAN! Kamu LUAR BIASA! 🎊' };
+        setTimeout(() => {
+            document.getElementById('congrats-msg').textContent = milestones[allLogs.length];
+            document.getElementById('congrats-emoji').textContent = '🎉';
+            document.getElementById('congrats-title').textContent = 'Pencapaian Baru!';
+            document.getElementById('congrats-overlay').classList.add('show');
+        }, 800);
+    }
+}
+
+function saveDump() {
+    const dump = {
+        tanggal: new Date().toLocaleDateString('id-ID'),
+        body: document.getElementById('dump-body').value.trim(),
+        voices: document.getElementById('dump-voices').value.trim(),
+        tired: document.getElementById('dump-tired').value.trim()
+    };
+    let dumps = JSON.parse(localStorage.getItem('meryBrainDumps') || '[]');
+    dumps.push(dump);
+    localStorage.setItem('meryBrainDumps', JSON.stringify(dumps));
+    toast('🕊️ Sudah keluar, sudah lebih lega sekarang.');
+    setTimeout(() => showCongrats(4), 1000);
+}
+
+function loadHistory() {
+    const logs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
+    const card = document.getElementById('history-card');
+    const list = document.getElementById('history-list');
+    if (logs.length === 0) { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+
+    const recent = [...logs].reverse().slice(0, 10);
+    list.innerHTML = recent.map(log => {
+        const ev = parseInt(log.energi);
+        const eColor = ev >= 7 ? 'var(--sage)' : ev >= 4 ? 'var(--gold)' : 'var(--coral)';
+        return `<div class="log-item">
+            <div class="log-date-badge">${log.tanggal}</div>
+            <div style="flex:1;">
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
+                    <span class="energy-pill" style="background:${eColor}20; color:${eColor};">⚡ ${log.energi}/10</span>
+                    ${log.kebutuhan ? `<span style="font-size:.75rem; color:var(--text-lt);">${log.kebutuhan}</span>` : ''}
+                </div>
+                ${log.keberhasilan ? `<p style="font-size:.85rem; font-weight:600; margin-bottom:2px;">🏆 ${log.keberhasilan}</p>` : ''}
+                ${log.keluhan ? `<p style="font-size:.82rem; color:var(--text-lt);">💬 ${log.keluhan.slice(0,80)}${log.keluhan.length>80?'…':''}</p>` : ''}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function clearHistory() {
+    if (!confirm('Hapus semua catatan? Tindakan ini tidak bisa diurungkan.')) return;
+    localStorage.removeItem('meryJurnalLogs');
+    localStorage.removeItem('meryBrainDumps');
+    document.getElementById('history-card').style.display = 'none';
+    updateStats();
+    toast('🗑️ Semua catatan dihapus.');
+}
+
+function updateStats() {
+    const logs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
+    const days = logs.length;
+    const avgEnergy = days ? (logs.reduce((a, l) => a + parseInt(l.energi), 0) / days).toFixed(1) : '-';
+    const wins = logs.filter(l => l.keberhasilan && l.keberhasilan.length > 0).length;
+
+    // simple streak: count consecutive days from today
+    let streak = 0;
+    const today = new Date().toISOString().split('T')[0];
+    const dates = [...new Set(logs.map(l => l.tanggalISO))].sort().reverse();
+    let checkDate = new Date(today);
+    for (const d of dates) {
+        if (d === checkDate.toISOString().split('T')[0]) {
+            streak++;
+            checkDate.setDate(checkDate.getDate() - 1);
+        } else break;
+    }
+
+    document.getElementById('stat-days').textContent = days;
+    document.getElementById('stat-avg').textContent = avgEnergy;
+    document.getElementById('stat-wins').textContent = wins;
+    document.getElementById('stat-streak').textContent = streak;
+
+    // Progress: up to 30 days = 100%
+    const pct = Math.min(100, Math.round((days / 30) * 100));
+    document.getElementById('overall-pct').textContent = pct + '%';
+    document.getElementById('overall-bar').style.width = pct + '%';
+
+    const labels = [
+        'Mulailah perjalananmu hari ini 🌱',
+        'Langkah pertama sudah diambil! Teruskan! 🌿',
+        'Kamu sedang membangun kebiasaan sehat! 💪',
+        'Jalur saraf barumu semakin kuat! 🧠',
+        'Luar biasa! Sudah hampir 2 minggu! 🌟',
+        '🎉 SEBULAN! Otakmu sudah berubah! Kamu PULIH! 🎊'
+    ];
+    const li = Math.floor(pct / 20);
+    document.getElementById('progress-label').textContent = labels[Math.min(li, labels.length - 1)];
+
+    if (pct >= 100) {
+        setTimeout(() => {
+            document.getElementById('congrats-emoji').textContent = '🎊';
+            document.getElementById('congrats-title').textContent = 'SELAMAT, MERRY!';
+            document.getElementById('congrats-msg').textContent = 'Kamu telah menyelesaikan 30 hari pertama. Otakmu sudah berubah. Kamu sudah PULIH! 💚';
+            document.getElementById('congrats-overlay').classList.add('show');
+        }, 500);
+    }
+}
+
+// ====================================================
+// CSV EXPORT
+// ====================================================
+function exportCSV() {
+    const logs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
+    if (!logs.length) { toast('⚠️ Belum ada catatan untuk diekspor.'); return; }
+    let csv = 'Tanggal,Energi (1-10),Keberhasilan Kecil,Keluh Kesah,Kebutuhan\n';
+    logs.forEach(r => {
+        csv += `${r.tanggal},${r.energi},"${(r.keberhasilan||'').replace(/"/g,'""')}","${(r.keluhan||'').replace(/"/g,'""')}","${(r.kebutuhan||'').replace(/"/g,'""')}"\n`;
+    });
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = `JurnalPemulihan_Merry_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    toast('📥 Data diekspor!');
+}
+
+// ====================================================
+// CANVAS
+// ====================================================
+const canvas = document.getElementById('drawingCanvas');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
+let currentColor = '#3A3A4A';
+let currentBrush = 7;
+
+function resizeCanvas() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const w = rect.width || window.innerWidth - 32;
+    canvas.width = w;
+    canvas.height = Math.min(window.innerHeight * 0.6, 400);
+    ctx.lineWidth = currentBrush;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = currentColor;
+}
+
+function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    if (e.touches && e.touches[0]) {
+        return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+    }
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+
+canvas.addEventListener('mousedown', e => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+canvas.addEventListener('mousemove', e => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+canvas.addEventListener('mouseup', () => isDrawing = false);
+canvas.addEventListener('mouseleave', () => isDrawing = false);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }, { passive: false });
+canvas.addEventListener('touchend', e => { e.preventDefault(); isDrawing = false; }, { passive: false });
+
+function setColor(btn) {
+    currentColor = btn.dataset.color;
+    ctx.strokeStyle = currentColor;
+    document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+function setBrush(size, btn) {
+    currentBrush = size;
+    ctx.lineWidth = size;
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+window.addEventListener('resize', () => {
+    if (document.getElementById('page-kanvas').classList.contains('active')) resizeCanvas();
+});
+
+// ====================================================
+// INIT
+// ====================================================
+window.addEventListener('DOMContentLoaded', () => {
+    setTodayDate();
+    updateStats();
+    showDailyTip();
+    initGame();
+    setTimeout(resizeCanvas, 200);
+    // Show range correctly on load
+    updateRange(document.getElementById('energyInput'));
+});
+</script>
 </body>
 </html>
