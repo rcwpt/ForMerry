@@ -1,1 +1,600 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Peta Menuju Pulih</title>
+    <!-- Tailwind CSS untuk styling yang rapi dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Quicksand untuk kesan lembut dan menenangkan -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons untuk icon menu -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: '#A7B49E',
+                        sageLight: '#D3D8C9',
+                        beige: '#F4F1EA',
+                        warmText: '#4A4A4A'
+                    },
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                        handwriting: ['Caveat', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F4F1EA;
+            color: #4A4A4A;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Transisi halus antar halaman */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
+        /* Styling Form & Input */
+        textarea, input[type="text"] {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid #D3D8C9;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: inherit;
+            resize: none;
+            transition: all 0.3s;
+        }
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #A7B49E;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(167, 180, 158, 0.2);
+        }
+
+        /* Custom Checkbox as Chips */
+        .chip-checkbox input[type="checkbox"] {
+            display: none;
+        }
+        .chip-checkbox label {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid #D3D8C9;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .chip-checkbox input[type="checkbox"]:checked + label {
+            background-color: #A7B49E;
+            color: white;
+            border-color: #A7B49E;
+        }
+
+        /* Range Slider Custom */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #A7B49E;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #D3D8C9;
+            border-radius: 3px;
+        }
+
+        /* Canvas Style */
+        #drawingCanvas {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            touch-action: none; /* Penting agar tidak scroll saat menggambar di HP */
+            width: 100%;
+            height: 60vh;
+        }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #A7B49E;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        #toast.show {
+            opacity: 1;
+        }
+
+        /* Nav Tab Active State */
+        .nav-btn.active {
+            color: #A7B49E;
+            font-weight: 600;
+        }
+        .nav-btn.active i {
+            color: #A7B49E;
+        }
+    </style>
+</head>
+<body class="antialiased pb-24">
+
+    <!-- Toast Notification -->
+    <div id="toast">Notifikasi</div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-md mx-auto p-5">
+
+        <!-- ================= PAGE 1: SURAT (COVER) ================= -->
+        <section id="page-surat" class="page-section active">
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 bg-sage"></div>
+                
+                <h1 class="text-2xl font-bold text-sage mb-2">PETA MENUJU PULIH</h1>
+                <h2 class="text-lg text-gray-500 mb-6 italic">Perjalanan Kita Kembali Padamu</h2>
+                
+                <div class="font-handwriting text-xl leading-relaxed text-gray-700 space-y-4">
+                    <p>Teruntuk Istriku Tersayang,</p>
+                    <p>Aku tahu saat ini rasanya seolah dunia sedang runtuh. Aku tahu isi kepalamu mungkin terasa sangat berisik, tubuhmu terasa lelah, dan kamu mungkin merasa telah kehilangan dirimu sendiri.</p>
+                    <p>Aku membuat tempat ini bukan untuk memaksamu cepat sembuh. Aku membuatnya untuk menjadi "Peta" kecilmu. Supaya setiap kali kamu merasa tersesat, bingung, atau takut, kamu bisa membuka ini dan ingat bahwa: <strong>Kamu tidak sendirian. Aku ada di sini bersamamu.</strong></p>
+                    <p>Seperti cerita yang pernah kita lihat bersama, ketahuilah satu kebenaran ilmiah ini: Kamu tidak rusak. Otakmu hanya sedang lelah dan butuh waktu untuk belajar ulang.</p>
+                    <p>Gunakan aplikasi ini sesukamu. Coret, ketik, tangisi, atau isi perlahan-lahan. Ini adalah ruang amanmu. Kepalamu mungkin bilang kamu harus "pergi" atau menyerah, tapi hatiku akan selalu memintamu untuk "tinggal".</p>
+                    <p>Kita akan melangkah pelan-pelan. Sabar. Konsisten. Sedikit demi sedikit.</p>
+                    <p>Aku mencintaimu, kemarin, hari ini, dan saat kamu pulih nanti.</p>
+                    <p class="mt-6 text-right font-bold text-sage">Suamimu,<br>Christian</p>
+                </div>
+            </div>
+            <button onclick="navigate('page-aman')" class="w-full bg-sage text-white py-3 rounded-xl font-semibold shadow-md hover:bg-opacity-90 transition">Buka Ruang Aman</button>
+        </section>
+
+        <!-- ================= PAGE 2: RUANG AMAN ================= -->
+        <section id="page-aman" class="page-section">
+            <h2 class="text-xl font-bold text-sage mb-4 flex items-center gap-2">
+                <i class="ph ph-shield-check text-2xl"></i> Ruang Aman untuk Lelah
+            </h2>
+            <p class="text-sm text-gray-600 mb-6 bg-sageLight bg-opacity-30 p-3 rounded-lg border border-sageLight">
+                Keluarkan isi kepalamu yang menumpuk di sini. Biarkan layar ini yang menanggung bebannya untukmu.
+            </p>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block font-semibold mb-2 text-gray-700">Hari ini, badanku terasa sangat tidak nyaman di bagian...</label>
+                    <textarea rows="3" placeholder="Misal: dadaku sesak, pundakku berat..."></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-2 text-gray-700">Suara-suara di kepalaku sedang sangat berisik. Mereka bilang:</label>
+                    <textarea rows="3" placeholder="Tuliskan hal-hal negatif itu di sini agar keluar dari kepalamu..."></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-2 text-gray-700">Hal yang paling membuatku lelah dan putus asa saat ini adalah:</label>
+                    <textarea rows="3" placeholder="Tuliskan semuanya..."></textarea>
+                </div>
+
+                <div class="mt-8 bg-white p-4 rounded-xl border-l-4 border-sage shadow-sm">
+                    <p class="font-handwriting text-xl text-gray-700 italic">"Terima kasih sudah bertahan hari ini. Tidak apa-apa merasa hancur. Keluarkan semuanya, kamu aman di sini." — Christian</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: PENGINGAT (NEUROPLASTISITAS) ================= -->
+        <section id="page-fakta" class="page-section">
+            <h2 class="text-xl font-bold text-sage mb-6 flex items-center gap-2">
+                <i class="ph ph-brain text-2xl"></i> Fakta Untuk Diingat
+            </h2>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 border border-sageLight">
+                <h3 class="font-bold text-lg mb-2 text-sage">Neuroplastisitas</h3>
+                <p class="text-gray-700 mb-4">Otak manusia memiliki kemampuan bernama Neuroplastisitas. <strong>Artinya: Otak bisa berubah.</strong> Jalur saraf yang rusak karena trauma atau tekanan mental bisa diperbaiki dan dibangun ulang.</p>
+                
+                <div class="bg-beige p-4 rounded-xl mb-4">
+                    <p class="font-semibold text-sm text-gray-500 uppercase tracking-wide mb-1">Penyakit/Trauma ini membuatku merasa:</p>
+                    <p class="text-gray-800">"Aku tidak berharga, aku ingin mati, aku gila, aku sendirian."</p>
+                </div>
+
+                <div class="bg-sageLight bg-opacity-40 p-4 rounded-xl">
+                    <p class="font-semibold text-sm text-sage uppercase tracking-wide mb-1">Tapi kenyataannya, identitas asliku adalah:</p>
+                    <p class="text-gray-800 font-medium">"Aku adalah istri yang dicintai. Aku orang yang kuat. Aku sedang berjuang dan aku akan sembuh."</p>
+                </div>
+            </div>
+
+            <button onclick="navigate('page-grounding')" class="w-full border-2 border-sage text-sage py-3 rounded-xl font-semibold hover:bg-sage hover:text-white transition">Latihan Tenangkan Diri (Grounding)</button>
+        </section>
+
+        <!-- ================= PAGE 4: GROUNDING 5-4-3-2-1 ================= -->
+        <section id="page-grounding" class="page-section">
+            <h2 class="text-xl font-bold text-sage mb-2 flex items-center gap-2">
+                <i class="ph ph-anchor text-2xl"></i> Latihan Grounding
+            </h2>
+            <p class="text-sm text-gray-600 mb-6">Saat cemas, mari kembali ke masa kini. Isi perlahan-lahan. Tidak usah buru-buru.</p>
+
+            <div class="space-y-6">
+                <!-- 5 -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">5</span> Benda yang bisa kamu lihat:</h3>
+                    <div class="space-y-2">
+                        <input type="text" placeholder="1...">
+                        <input type="text" placeholder="2...">
+                        <input type="text" placeholder="3...">
+                        <input type="text" placeholder="4...">
+                        <input type="text" placeholder="5...">
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">4</span> Hal yang bisa disentuh/dirasakan:</h3>
+                    <p class="text-xs text-gray-500 mb-2">Contoh: bajuku, detak jantungku...</p>
+                    <div class="space-y-2">
+                        <input type="text" placeholder="1...">
+                        <input type="text" placeholder="2...">
+                        <input type="text" placeholder="3...">
+                        <input type="text" placeholder="4...">
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">3</span> Suara yang bisa didengar:</h3>
+                    <p class="text-xs text-gray-500 mb-2">Selain suara di kepalamu...</p>
+                    <div class="space-y-2">
+                        <input type="text" placeholder="1...">
+                        <input type="text" placeholder="2...">
+                        <input type="text" placeholder="3...">
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">2</span> Hal yang bisa dicium baunya:</h3>
+                    <div class="space-y-2">
+                        <input type="text" placeholder="1...">
+                        <input type="text" placeholder="2...">
+                    </div>
+                </div>
+
+                <!-- 1 -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-sage text-lg mb-3 flex items-center gap-2"><span class="bg-sage text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">1</span> Hal baik tentang dirimu:</h3>
+                    <p class="text-xs text-gray-500 mb-2">Meski rasanya sulit dipercaya saat ini...</p>
+                    <div class="space-y-2">
+                        <input type="text" placeholder="Tulis 1 kebaikanmu..." class="border-sage bg-sageLight bg-opacity-20 font-semibold text-center">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: JURNAL HARIAN (Bisa Disimpan & Diekspor) ================= -->
+        <section id="page-jurnal" class="page-section">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-sage flex items-center gap-2">
+                    <i class="ph ph-book-open-text text-2xl"></i> Jurnal Harian
+                </h2>
+                <button onclick="exportCSV()" class="text-sm text-gray-500 hover:text-sage flex items-center gap-1 bg-white px-3 py-1 rounded-full shadow-sm">
+                    <i class="ph ph-download-simple"></i> Ekspor Data
+                </button>
+            </div>
+            
+            <p class="text-sm text-gray-600 mb-6">Satu kata pun cukup. Jangan paksakan harus penuh.</p>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 border border-sageLight">
+                <div class="mb-4 text-center">
+                    <span id="displayDate" class="inline-block bg-beige px-4 py-1 rounded-full text-sm font-semibold text-gray-600"></span>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block font-semibold mb-2 text-gray-700">Kapasitas Energiku Hari Ini: <span id="energyValue" class="text-sage font-bold text-lg">5</span>/10</label>
+                    <input type="range" id="energyInput" min="1" max="10" value="5" oninput="document.getElementById('energyValue').innerText = this.value">
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>Habis (1)</span>
+                        <span>Penuh (10)</span>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block font-semibold mb-2 text-gray-700">Satu keberhasilan kecilku hari ini:</label>
+                    <p class="text-xs text-gray-500 mb-2">Mandi, makan satu suap, atau sekadar bernapas adalah sebuah keberhasilan.</p>
+                    <textarea id="successInput" rows="2" placeholder="Aku berhasil..."></textarea>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block font-semibold mb-2 text-gray-700">Keluh Kesahku:</label>
+                    <textarea id="complaintInput" rows="3" placeholder="Tulis bebas apa saja yang mengganggu pikiranmu..."></textarea>
+                </div>
+
+                <div class="mb-8">
+                    <label class="block font-semibold mb-2 text-gray-700">Apa yang aku butuhkan dari Christian hari ini?</label>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="chip-checkbox">
+                            <input type="checkbox" id="need1" value="Pelukan dalam diam">
+                            <label for="need1">Pelukan dalam diam</label>
+                        </div>
+                        <div class="chip-checkbox">
+                            <input type="checkbox" id="need2" value="Diajak ngobrol">
+                            <label for="need2">Diajak ngobrol</label>
+                        </div>
+                        <div class="chip-checkbox">
+                            <input type="checkbox" id="need3" value="Ditinggal sendiri tapi diawasi">
+                            <label for="need3">Waktu sendiri (awasi aku)</label>
+                        </div>
+                        <div class="chip-checkbox">
+                            <input type="checkbox" id="need4" value="Dibawakan makanan">
+                            <label for="need4">Dibawakan makanan</label>
+                        </div>
+                        <div class="chip-checkbox w-full mt-2">
+                            <input type="text" id="needOther" placeholder="Bantuan lain..." class="w-full text-sm border-gray-200">
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="saveJurnal()" class="w-full bg-sage text-white py-3 rounded-xl font-semibold shadow-md hover:bg-opacity-90 transition flex items-center justify-center gap-2">
+                    <i class="ph ph-floppy-disk text-xl"></i> Simpan Catatan Hari Ini
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 6: KANVAS BEBAS ================= -->
+        <section id="page-kanvas" class="page-section">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-sage flex items-center gap-2">
+                    <i class="ph ph-palette text-2xl"></i> Kanvas Bebas
+                </h2>
+                <button onclick="clearCanvas()" class="text-sm bg-red-100 text-red-600 px-3 py-1 rounded-full shadow-sm font-semibold flex items-center gap-1 hover:bg-red-200 transition">
+                    <i class="ph ph-trash"></i> Hapus
+                </button>
+            </div>
+            
+            <p class="text-sm text-gray-600 mb-4 bg-sageLight bg-opacity-30 p-3 rounded-lg">
+                Halaman ini tidak punya aturan. Coret-coret dengan kasar. Gambar perasaanmu. Biarkan tanganmu bergerak bebas.
+            </p>
+
+            <div class="relative">
+                <canvas id="drawingCanvas"></canvas>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+    <nav class="fixed bottom-0 w-full bg-white border-t border-gray-200 flex justify-around p-3 pb-safe-area shadow-[0_-4px_15px_rgba(0,0,0,0.03)] z-50">
+        <button onclick="navigate('page-surat')" class="nav-btn active flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-surat">
+            <i class="ph ph-envelope-open text-2xl"></i>
+            <span class="text-[10px] uppercase font-bold">Surat</span>
+        </button>
+        <button onclick="navigate('page-aman')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-aman">
+            <i class="ph ph-shield-check text-2xl"></i>
+            <span class="text-[10px] uppercase font-bold">Aman</span>
+        </button>
+        <button onclick="navigate('page-grounding')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-grounding">
+            <i class="ph ph-anchor text-2xl"></i>
+            <span class="text-[10px] uppercase font-bold">Fokus</span>
+        </button>
+        <button onclick="navigate('page-jurnal')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-jurnal">
+            <i class="ph ph-book-open-text text-2xl"></i>
+            <span class="text-[10px] uppercase font-bold">Jurnal</span>
+        </button>
+        <button onclick="navigate('page-kanvas')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-sage transition w-1/5" data-target="page-kanvas">
+            <i class="ph ph-palette text-2xl"></i>
+            <span class="text-[10px] uppercase font-bold">Kanvas</span>
+        </button>
+    </nav>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // --- 1. Navigation Logic ---
+        function navigate(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Reset nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show target page
+            document.getElementById(pageId).classList.add('active');
+            // Highlight active nav button
+            const activeBtn = document.querySelector(`.nav-btn[data-target="${pageId}"]`);
+            if(activeBtn) activeBtn.classList.add('active');
+
+            // Resize canvas if navigating to kanvas to ensure proper coordinate mapping
+            if(pageId === 'page-kanvas') {
+                resizeCanvas();
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // --- 2. Jurnal & LocalStorage Logic ---
+        // Set Today's Date
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('displayDate').innerText = today.toLocaleDateString('id-ID', options);
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        function saveJurnal() {
+            // Get Checkbox Values
+            let needs = [];
+            for(let i=1; i<=4; i++) {
+                let cb = document.getElementById(`need${i}`);
+                if(cb.checked) needs.push(cb.value);
+            }
+            let otherNeed = document.getElementById('needOther').value.trim();
+            if(otherNeed) needs.push(otherNeed);
+
+            const entry = {
+                id: Date.now(),
+                tanggal: today.toLocaleDateString('id-ID'),
+                energi: document.getElementById('energyInput').value,
+                keberhasilan: document.getElementById('successInput').value.trim(),
+                keluhan: document.getElementById('complaintInput').value.trim(),
+                kebutuhan: needs.join('; ')
+            };
+
+            // Retrieve existing, push new, save back
+            let logs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
+            logs.push(entry);
+            localStorage.setItem('meryJurnalLogs', JSON.stringify(logs));
+
+            showToast('Catatan hari ini berhasil disimpan 💚');
+            
+            // Clear inputs slightly
+            document.getElementById('successInput').value = '';
+            document.getElementById('complaintInput').value = '';
+        }
+
+        // --- 3. CSV Export Logic ---
+        function exportCSV() {
+            let logs = JSON.parse(localStorage.getItem('meryJurnalLogs') || '[]');
+            if (logs.length === 0) {
+                showToast('Belum ada catatan untuk diekspor.');
+                return;
+            }
+
+            // CSV Header
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Tanggal,Energi (1-10),Keberhasilan Kecil,Keluh Kesah,Kebutuhan\n";
+
+            logs.forEach(function(row) {
+                // Escape quotes and commas
+                let keberhasilan = `"${row.keberhasilan.replace(/"/g, '""')}"`;
+                let keluhan = `"${row.keluhan.replace(/"/g, '""')}"`;
+                let kebutuhan = `"${row.kebutuhan.replace(/"/g, '""')}"`;
+                
+                let rowData = `${row.tanggal},${row.energi},${keberhasilan},${keluhan},${kebutuhan}`;
+                csvContent += rowData + "\n";
+            });
+
+            // Trigger Download
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Jurnal_Pemulihan_Mery_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link); // Required for FF
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- 4. Drawing Canvas Logic ---
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        function resizeCanvas() {
+            // Set actual internal canvas size to match CSS display size
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            // Set pen style
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#4A4A4A'; // Warm dark gray
+        }
+
+        // Call initially and on resize
+        window.addEventListener('resize', resizeCanvas);
+
+        // Get accurate mouse/touch position
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            // Handle Touch
+            if(e.touches && e.touches.length > 0) {
+                return {
+                    x: e.touches[0].clientX - rect.left,
+                    y: e.touches[0].clientY - rect.top
+                };
+            }
+            // Handle Mouse
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
+
+        function startDrawing(e) {
+            e.preventDefault(); // Prevent scrolling on touch
+            isDrawing = true;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault(); // Prevent scrolling on touch
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDrawing(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            isDrawing = false;
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Mouse Events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // Touch Events (For Mobile)
+        canvas.addEventListener('touchstart', startDrawing, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        canvas.addEventListener('touchend', stopDrawing, { passive: false });
+        canvas.addEventListener('touchcancel', stopDrawing, { passive: false });
+
+    </script>
+</body>
+</html>
