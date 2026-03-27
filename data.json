@@ -1,5 +1,15 @@
 {
-  "logs": [],
+  "logs": [
+    {
+      "id": 1774624050707,
+      "tanggal": "28/3/2026",
+      "tanggalISO": "2026-03-27",
+      "energi": 5,
+      "keberhasilan": "Excel",
+      "keluhan": "Kesepian , tdk ada suara suamiku waktu malam\nAk kangen",
+      "kebutuhan": "Pelukan dalam diam; Dibawakan makanan; Didampingi diam-diam; Diingatkan aku dicintai; Mau makan seafood"
+    }
+  ],
   "dumps": [
     {
       "tanggal": "28/3/2026",
